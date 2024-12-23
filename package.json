@@ -1,0 +1,25 @@
+{
+  "name": "rudolph",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "postinstall": "npm run build --workspaces && npm link -w cli",
+    "api": "npm start -w api"
+  },
+  "keywords": [
+    "avalanche",
+    "c-chain",
+    "cli",
+    "indexer",
+    "api"
+  ],
+  "author": "thewrlck",
+  "license": "MIT",
+  "description": "Avalanche C-Chain Indexer",
+  "workspaces": [
+    "db",
+    "cli",
+    "api"
+  ]
+}

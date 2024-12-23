@@ -1,0 +1,359 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Rudolph",
+    "version": "0.0.1",
+    "description": "API documentation for Rudolph"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Retrieve basic information",
+        "responses": {
+          "200": {
+            "description": "Basic API information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the API",
+                      "example": "rudolph"
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "The version of the API",
+                      "example": "0.0.1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{address}/count": {
+      "get": {
+        "summary": "Get the count of transactions for a specific address",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The address to get the transaction counts for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved transaction counts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "type": "integer",
+                      "description": "The count of transactions sent from the address",
+                      "example": 5
+                    },
+                    "to": {
+                      "type": "integer",
+                      "description": "The count of transactions sent to the address",
+                      "example": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{address}": {
+      "get": {
+        "summary": "Retrieve paginated transactions for a specific address",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The address to retrieve transactions for"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "The page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "The number of transactions to retrieve per page"
+          },
+          {
+            "in": "query",
+            "name": "block_number",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "desc"
+            },
+            "description": "Sorting order for the block number"
+          },
+          {
+            "in": "query",
+            "name": "tx_index",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            },
+            "description": "Sorting order for the transaction index"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "docs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The timestamp of the transaction"
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "The status of the transaction"
+                          },
+                          "block_number": {
+                            "type": "string",
+                            "description": "The block number of the transaction"
+                          },
+                          "tx_index": {
+                            "type": "string",
+                            "description": "The transaction index within the block"
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "The value of the transaction"
+                          },
+                          "gas_limit": {
+                            "type": "string",
+                            "description": "The gas limit for the transaction"
+                          },
+                          "gas_used": {
+                            "type": "string",
+                            "description": "The gas used by the transaction"
+                          },
+                          "gas_price": {
+                            "type": "string",
+                            "description": "The gas price of the transaction"
+                          }
+                        }
+                      }
+                    },
+                    "totalDocs": {
+                      "type": "integer",
+                      "description": "The total number of transactions"
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "description": "The number of transactions per page"
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "description": "The total number of pages"
+                    },
+                    "page": {
+                      "type": "integer",
+                      "description": "The current page number"
+                    },
+                    "pagingCounter": {
+                      "type": "integer",
+                      "description": "The starting index of the current page"
+                    },
+                    "hasPrevPage": {
+                      "type": "boolean",
+                      "description": "Whether there is a previous page"
+                    },
+                    "hasNextPage": {
+                      "type": "boolean",
+                      "description": "Whether there is a next page"
+                    },
+                    "prevPage": {
+                      "type": "integer",
+                      "description": "The previous page number"
+                    },
+                    "nextPage": {
+                      "type": "integer",
+                      "description": "The next page number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "summary": "Retrieve paginated transactions with sorting by value",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "The page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "The number of transactions to retrieve per page"
+          },
+          {
+            "in": "query",
+            "name": "value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "desc"
+            },
+            "description": "Sorting order for transaction value (ascending or descending)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "docs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The timestamp of the transaction"
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "The status of the transaction"
+                          },
+                          "block_number": {
+                            "type": "string",
+                            "description": "The block number of the transaction"
+                          },
+                          "tx_index": {
+                            "type": "string",
+                            "description": "The transaction index within the block"
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "The value of the transaction"
+                          },
+                          "gas_limit": {
+                            "type": "string",
+                            "description": "The gas limit for the transaction"
+                          },
+                          "gas_used": {
+                            "type": "string",
+                            "description": "The gas used by the transaction"
+                          },
+                          "gas_price": {
+                            "type": "string",
+                            "description": "The gas price of the transaction"
+                          }
+                        }
+                      }
+                    },
+                    "totalDocs": {
+                      "type": "integer",
+                      "description": "The total number of transactions"
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "description": "The number of transactions per page"
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "description": "The total number of pages"
+                    },
+                    "page": {
+                      "type": "integer",
+                      "description": "The current page number"
+                    },
+                    "pagingCounter": {
+                      "type": "integer",
+                      "description": "The starting index of the current page"
+                    },
+                    "hasPrevPage": {
+                      "type": "boolean",
+                      "description": "Whether there is a previous page"
+                    },
+                    "hasNextPage": {
+                      "type": "boolean",
+                      "description": "Whether there is a next page"
+                    },
+                    "prevPage": {
+                      "type": "integer",
+                      "description": "The previous page number"
+                    },
+                    "nextPage": {
+                      "type": "integer",
+                      "description": "The next page number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

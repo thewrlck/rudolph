@@ -1,0 +1,27 @@
+{
+  "name": "@rudolph/cli",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "bin": {
+    "rudolph": "dist/index.js"
+  },
+  "scripts": {
+    "dev": "nodemon index.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@rudolph/db": "^0.0.1",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.4.7",
+    "viem": "^2.21.56"
+  }
+}
